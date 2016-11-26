@@ -1,9 +1,5 @@
 # DelegateCached
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/delegate_cached`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,7 +18,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+First, add a column to the delegating ActiveRecord model. This is where the
+value will be cached. If using the `prefix: true` options, be sure to use the
+`to` prefix. In the example below, the column names required would be
+`hiker_name` for the first `delegate_cached` definition, and `name` for the
+second.
+
+Second, add your `delegate_cached` definition. Note - you may only use
+`delegate_cached` on `belongs_to` and `has_one` associations.
+
+```ruby
+class ThruHike < ApplicationRecord
+  belongs_to :hiker, inverse_of: :thru_hikes
+  belongs_to :trail, inverse_of: :thru_hikes
+
+  delegate_cached :name, to: :hiker, prefix: true # hike_name column required on thru_hikes table
+  delegate_cached :name, to: :trail # name column required on thru_hikes tables
+end
+```
+
+Third, use your models as you typically would with `delegate` When an instance
+of the delegated-to model is saved, a callback will update your delegate_cached
+value.
+
+## Options
+
+`update_when_nil: true` False by default. When set to true and the referenced
+attribute is called, if the existing cached value is nil, it will attempt to
+update the attribute value with the delegated value.
+
+`skip_callback: true` False by default. When set to true, the `after_save`
+callback on the delegated-to model will not set.
+
 
 ## Development
 
@@ -32,10 +59,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/delegate_cached. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/cselmer/delegate_cached. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+Copyright (c) 2016 Chris Selmer. The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
