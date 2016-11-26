@@ -18,7 +18,6 @@ module DelegateCached
         inverse = reflection.inverse_of
         inverse ||= retrieve_reflection(options[:inverse_of])
         @options[:skip_callback] = true if inverse.nil?
-        # validate_inverse(inverse)
       end
 
       @target = target_model_data(attribute, reflection, inverse)
@@ -70,12 +69,6 @@ module DelegateCached
 
       return if model.columns.detect { |cl| cl.name == column.to_s }
       missing_attribute(model, column)
-    end
-
-    def validate_reflection(reflection)
-      return unless reflection.polymorphic?
-      raise ArgumentError,
-            'Polymorphic relationships are not currently supported.'
     end
 
     def validate_inverse(inverse)
