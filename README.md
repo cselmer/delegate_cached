@@ -18,9 +18,9 @@ Or install it yourself as:
 
 ## Usage
 
-First, add a column to the delegating ActiveRecord model. This is where the
-value will be cached. If using the `prefix: true` options, be sure to use the
-`to` prefix. In the example below, the column names required would be
+First, add a column to the delegating ActiveRecord modelto cache the delegated
+value. If using the `prefix: true` options, be sure to use the
+`to` prefix in the column name. For example, as below, the column names required would be
 `hiker_name` for the first `delegate_cached` definition, and `name` for the
 second.
 
@@ -32,7 +32,7 @@ class ThruHike < ApplicationRecord
   belongs_to :hiker, inverse_of: :thru_hikes
   belongs_to :trail, inverse_of: :thru_hikes
 
-  delegate_cached :name, to: :hiker, prefix: true # hike_name column required on thru_hikes table
+  delegate_cached :name, to: :hiker, prefix: true # hiker_name column required on thru_hikes table
   delegate_cached :name, to: :trail # name column required on thru_hikes tables
 end
 ```
