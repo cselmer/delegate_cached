@@ -51,6 +51,75 @@ end
 Now, add your `delegate_cached` definition as in the example above. Note - you
 may only use `delegate_cached` on `belongs_to` and `has_one` associations.
 
+This adds several methods to the delegating and delegated-to models.
+
+```ruby
+class ThruHike < ApplicationRecord
+  belongs_to :hiker, inverse_of: :thru_hikes
+  belongs_to :trail, inverse_of: :thru_hikes
+
+  delegate_cached :name, to: :hiker, prefix: true # 'hiker_name' column required on thru_hikes table
+  delegate_cached :name, to: :trail               # 'name' column required on thru_hikes tables
+
+  # This callback added by delegate_cached
+  before_save :set_delegate_cached_value_for_hiker_name
+
+  # This method added by delegate_cached
+  def set_delegate_cached_value_for_hiker_name
+    return unless hiker
+    self['hiker_name'] = hiker.name
+  end
+
+  # This method added by delegate_cached
+  def update_delegate_cached_value_for_hiker_name
+    update(hiker_name: hiker.name)
+  end
+
+  # This method added by delegate_cached and overrides the ActiveRecord accessor
+  # Cached value is returned unless nil. When nil, update the value from the
+  # delegated_to model. To disable updating, use the update_when_nil = false option
+  def hiker_name
+    unless self['hiker_name'].nil?
+      return self['hiker_name']
+    end
+    update_delegate_cached_value_for_hiker_name
+    hiker.name
+  end
+end
+```
+
+```ruby
+class Hiker < ApplicationRecord
+  has_many :thru_hikes, inverse_of: :hiker
+
+  # This callback added by delegate_cached
+  # To disable the callback, use the skip_callback = true option
+  after_save :update_delegate_cached_value_for_thru_hikes_hiker_name, if: :name_changed?
+
+  # This method added by delegate_cached
+  def update_delegate_cached_value_for_thru_hikes_hiker_name
+    ThruHike.where(hiker_id: id)
+            .update_all(hiker_name: name)
+  end
+end
+```
+
+```ruby
+class Trail < ApplicationRecord
+  has_many :thru_hikes, inverse_of: :trail
+
+  # This callback added by delegate_cached
+  # To disable the callback, use the skip_callback = true option
+  after_save :update_delegate_cached_value_for_thru_hikes_name, if: :name_changed?
+
+  # This method added by delegate_cached
+  def update_delegate_cached_value_for_thru_hikes_name
+    ThruHike.where(hiker_id: id)
+            .update_all(name: name)
+  end
+end
+```
+
 Finally, use your models as you typically would with `delegate` When an instance
 of the delegated-to model is saved, a callback will update your delegate_cached
 value.
