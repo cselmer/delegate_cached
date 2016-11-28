@@ -1,5 +1,7 @@
 # DelegateCached
 
+[![Gem Version](https://badge.fury.io/rb/delegate_cached.svg)](https://badge.fury.io/rb/delegate_cached)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -18,11 +20,10 @@ Or install it yourself as:
 
 ## Usage
 
-First, add a column to the delegating ActiveRecord modelto cache the delegated
-value. If using the `prefix: true` options, be sure to use the
-`to` prefix in the column name. For example, as below, the column names required would be
-`hiker_name` for the first `delegate_cached` definition, and `name` for the
-second.
+First, add a column to the delegating ActiveRecord model. If using the
+`prefix: true` options, be sure to use the `to` prefix in the column name. 
+For example, as below, the column names required would be `hiker_name` for the
+first `delegate_cached` definition, and `name` for the second.
 
 Second, add your `delegate_cached` definition. Note - you may only use
 `delegate_cached` on `belongs_to` and `has_one` associations.
