@@ -5,6 +5,14 @@
 [![Code Climate](https://codeclimate.com/github/cselmer/delegate_cached/badges/gpa.svg)](https://codeclimate.com/github/cselmer/delegate_cached)
 
 
+## Overview
+
+`delegate_cached` allows you to cache delegated attributes on the delegating
+model and provides options to update the cached values when changed on the
+delegated-to model.
+
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -23,27 +31,31 @@ Or install it yourself as:
 
 ## Usage
 
-First, add a column to the delegating ActiveRecord model. If using the
-`prefix: true` options, be sure to use the `to` prefix in the column name.
-For example, as below, the column names required would be `hiker_name` for the
-first `delegate_cached` definition, and `name` for the second.
-
-Second, add your `delegate_cached` definition. Note - you may only use
-`delegate_cached` on `belongs_to` and `has_one` associations.
+We'll be caching the delegated attribute value, so your delegating ActiveRecord
+model will need a column to store the value. The column name will need to match
+the delegated attribute, or if using the `prefix: true` option, match the
+delegated attribute preceded by the `to:` option and `_`. For example, as below,
+the column names required would be `hiker_name` for the first `delegate_cached`
+definition, and `name` for the second. Create and run a migration for your new
+column/s unless they already exist.
 
 ```ruby
 class ThruHike < ApplicationRecord
   belongs_to :hiker, inverse_of: :thru_hikes
   belongs_to :trail, inverse_of: :thru_hikes
 
-  delegate_cached :name, to: :hiker, prefix: true # hiker_name column required on thru_hikes table
-  delegate_cached :name, to: :trail # name column required on thru_hikes tables
+  delegate_cached :name, to: :hiker, prefix: true # 'hiker_name' column required on thru_hikes table
+  delegate_cached :name, to: :trail               # 'name' column required on thru_hikes tables
 end
 ```
 
-Third, use your models as you typically would with `delegate` When an instance
+Now, add your `delegate_cached` definition as in the example above. Note - you
+may only use `delegate_cached` on `belongs_to` and `has_one` associations.
+
+Finally, use your models as you typically would with `delegate` When an instance
 of the delegated-to model is saved, a callback will update your delegate_cached
 value.
+
 
 ## Options
 
@@ -55,17 +67,21 @@ update the attribute value with the delegated value.
 callback on the delegated-to model will not set.
 
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/cselmer/delegate_cached. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at
+https://github.com/cselmer/delegate_cached. This project is intended to be a
+safe, welcoming space for collaboration, and contributors are expected to adhere
+to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run
+`rake spec` to run the tests.
 
 
 ## License
 
-Copyright (c) 2016 Chris Selmer. The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+Copyright (c) 2016 Chris Selmer. The gem is available as open source under the
+terms of the [MIT License](http://opensource.org/licenses/MIT).
