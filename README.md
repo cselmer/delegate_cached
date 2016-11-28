@@ -127,6 +127,14 @@ value.
 
 ## Options
 
+`to: X` Required. Must be a `belongs_to` or `has_one` ActiveRecord association
+
+`prefix: true` False by default. Changes the accessor name from `accessor` to
+`to_accessor`
+
+`inverse_of` Tells `delegate_cached` the inverse_of for the `to` association
+when it is not defined on the association itself.
+
 `update_when_nil: true` False by default. When set to true and the referenced
 attribute is called, if the existing cached value is nil, it will attempt to
 update the attribute value with the delegated value.
