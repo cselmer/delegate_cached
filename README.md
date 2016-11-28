@@ -2,6 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/delegate_cached.svg)](https://badge.fury.io/rb/delegate_cached)
 [![Build Status](https://travis-ci.org/cselmer/delegate_cached.svg?branch=master)](https://travis-ci.org/cselmer/delegate_cached)
+[![Code Climate](https://codeclimate.com/github/cselmer/delegate_cached/badges/gpa.svg)](https://codeclimate.com/github/cselmer/delegate_cached)
+
 
 ## Installation
 
