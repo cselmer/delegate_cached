@@ -33,17 +33,21 @@ module DelegateCached
       end
     end
 
+    def update_all_line
+      ".update_all(#{@source.column}: #{@target.column})"
+    end
+
     def update_method_body_for_has_one_or_has_many
       %(
           #{@source.model}.where(#{@source.association}_id: id)
-                          .update_all(#{@source.column}: #{@target.column})
+                          #{update_all_line}
       )
     end
 
     def update_method_body_for_belongs_to
       %(
           #{@source.model}.where(id: #{@target.association}_id)
-                          .update_all(#{@source.column}: #{@target.column})
+                          #{update_all_line}
       )
     end
   end
