@@ -1,3 +1,5 @@
+require "simplecov"
+SimpleCov.start
 require 'active_record'
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 $LOAD_PATH.unshift File.expand_path("support", __FILE__)
