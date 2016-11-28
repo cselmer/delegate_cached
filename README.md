@@ -1,6 +1,7 @@
 # DelegateCached
 
 [![Gem Version](https://badge.fury.io/rb/delegate_cached.svg)](https://badge.fury.io/rb/delegate_cached)
+[![Build Status](https://travis-ci.org/cselmer/delegate_cached.svg?branch=master)](https://travis-ci.org/cselmer/delegate_cached)
 
 ## Installation
 
@@ -21,7 +22,7 @@ Or install it yourself as:
 ## Usage
 
 First, add a column to the delegating ActiveRecord model. If using the
-`prefix: true` options, be sure to use the `to` prefix in the column name. 
+`prefix: true` options, be sure to use the `to` prefix in the column name.
 For example, as below, the column names required would be `hiker_name` for the
 first `delegate_cached` definition, and `name` for the second.
 
