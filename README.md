@@ -3,14 +3,13 @@
 [![Gem Version](https://badge.fury.io/rb/delegate_cached.svg)](https://badge.fury.io/rb/delegate_cached)
 [![Build Status](https://travis-ci.org/cselmer/delegate_cached.svg?branch=master)](https://travis-ci.org/cselmer/delegate_cached)
 [![Code Climate](https://codeclimate.com/github/cselmer/delegate_cached/badges/gpa.svg)](https://codeclimate.com/github/cselmer/delegate_cached)
-
+[![Test Coverage](https://codeclimate.com/github/cselmer/delegate_cached/badges/coverage.svg)](https://codeclimate.com/github/cselmer/delegate_cached/coverage)
 
 ## Overview
 
 `delegate_cached` allows you to cache delegated attributes on the delegating
 model and provides options to update the cached values when changed on the
 delegated-to model.
-
 
 
 ## Installation
