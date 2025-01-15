@@ -1,6 +1,6 @@
 # DelegateCached
 
-# This is not really a very useful header
+# This is not really a very useful header, or is it?
 
 [![Gem Version](https://badge.fury.io/rb/delegate_cached.svg)](https://badge.fury.io/rb/delegate_cached)
 [![Build Status](https://travis-ci.org/cselmer/delegate_cached.svg?branch=master)](https://travis-ci.org/cselmer/delegate_cached)
